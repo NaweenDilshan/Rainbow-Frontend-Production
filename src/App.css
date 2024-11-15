@@ -1,0 +1,13 @@
+.login-page{
+  background-image: url('/public/Images/background.jpg');
+  background-size:100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 150vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+

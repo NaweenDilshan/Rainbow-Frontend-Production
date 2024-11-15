@@ -1,0 +1,38 @@
+/* styles.css */
+.mobile-nav-toggle {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 1051;
+}
+
+/* Hide sidebar in mobile view */
+.sidebar {
+  display: none;
+}
+
+/* Show sidebar in desktop view */
+@media (min-width: 992px) {
+  .sidebar {
+    display: block;
+  }
+}
+
+/* Navbar toggle for mobile (on top-left) */
+@media (max-width: 991px) {
+  .navbar-toggler {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1051;
+  }
+
+  /* Make the header fixed */
+  .fixed-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1050;
+  }
+}

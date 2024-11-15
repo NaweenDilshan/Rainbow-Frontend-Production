@@ -1,0 +1,109 @@
+/* Main container to hold the sidebar and content */
+.container {
+  display: flex;
+}
+
+/* Content styling */
+.content {
+  flex: 1;
+  margin-left: 260px; /* Adjusts for the sidebar width on larger screens */
+  padding: 20px;
+  margin-top: 80px;
+}
+
+/* Style adjustments for the card, form, and button on mobile screens */
+@media (max-width: 768px) {
+  .container {
+      flex-direction: column; /* Stack sidebar and content vertically */
+  }
+
+  .content {
+      margin-left: 0; /* Remove left margin on mobile */
+      display: flex;
+      flex-direction: column; /* Arrange items vertically */
+      align-items: center; /* Center card and button horizontally */
+      padding: 10px;
+      margin-top: 50px;
+  }
+
+  /* Card styling */
+  .ant-card {
+      width: 100%; /* Make the card full width */
+      max-width: 350px; /* Limit max width for better readability */
+      margin-top: 20px; /* Adjust margin for spacing */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 50px;
+  }
+
+  /* Card body styling */
+  .ant-card-body {
+      padding: 20px; /* Add padding for better spacing */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: -10px;
+  }
+
+  /* Button styling */
+  .ant-btn {
+      width: 100%; /* Full width on mobile */
+      max-width: 200px; /* Set max width to control button size */
+      margin-top: 15px; /* Spacing between form and button */
+      margin-left: -70px !important;
+  }
+
+  .view-btn{
+    margin-left: 5px !important;
+  }
+}
+
+/* Modal styling adjustments */
+@media (max-width: 768px) {
+  /* Adjust modal width for mobile */
+  .ant-modal {
+    width: 95% !important; /* Reduce modal width for better mobile view */
+    max-width: 95% !important; /* Ensure the modal doesn't stretch too much */
+  }
+
+  /* Adjust the table inside the modal */
+  .ant-table {
+    width: 100%;
+    display: block; /* Change to block so the table can scroll horizontally */
+    overflow-x: auto; /* Enable horizontal scroll for small screens */
+  }
+
+  /* Column adjustments for mobile - stack them vertically */
+  .ant-table-thead,
+  .ant-table-tbody {
+    display: block;
+  }
+
+  .ant-table-thead > tr > th,
+  .ant-table-tbody > tr > td {
+    display: block; /* Make each column block-level so they stack */
+    width: 100%;
+    padding: 10px; /* Add padding for better readability */
+    text-align: left;
+  }
+
+  /* Add more spacing between rows */
+  .ant-table-tbody > tr {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0; /* Add a light border between rows */
+  }
+
+  /* Adjust button inside modal */
+  .ant-btn {
+    width: 100%; /* Full-width buttons */
+    max-width: 300px;
+    margin-left: -70px; /* Center the button */
+  }
+  /* CSS for highlighting 'OUT' rows */
+.out-row {
+  background-color: #ffe6e6; /* Light red background for OUT entries */
+}
+
+}
+
+
+

@@ -1,0 +1,46 @@
+/* General styling for smaller screens */
+@media (max-width: 768px) {
+    /* Container adjustment for mobile */
+    .container {
+      padding: 20px !important;
+      width: 100% !important;
+    }
+  
+    /* Card styling */
+    .card {
+      padding: 20px !important;
+      width: 100% !important;
+      box-shadow: none !important;
+    }
+  
+    /* Centering the card title */
+    .card-title {
+      font-size: 1.5rem !important;
+    }
+  
+    /* Form control adjustments */
+    .form-control,
+    .form-select,
+    .btn {
+      font-size: 1rem !important;
+    }
+  
+    /* Invoice Items */
+    .border {
+      padding: 10px !important;
+    }
+  
+    /* Align the add item and remove buttons for mobile */
+    .btn-outline-primary,
+    .btn-danger {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+  
+
+  .shadow-sm {
+    margin-bottom: 20px;
+    margin-top: 30px;
+
+  }

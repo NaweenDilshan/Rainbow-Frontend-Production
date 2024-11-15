@@ -1,0 +1,88 @@
+/* Center the form on both desktop and mobile */
+.auth-form1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f7fc;
+    padding: 0 16px; /* Add some padding for mobile responsiveness */
+    margin-left: 100px !important;
+  }
+  
+  /* Style the container */
+  .auth-form1 .ant-form {
+    width: 100%;
+    max-width: 500px; /* Form's maximum width */
+    background: #fff;
+    padding: 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    
+  }
+  
+  /* Sidebar should not overlap the form on mobile */
+  @media (max-width: 768px) {
+    .auth-form1 .ant-form {
+      max-width: 100%;
+      padding: 20px;
+    }
+  }
+  
+  /* Heading styles */
+  .auth-form1 h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  /* Error message styling */
+  .error {
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1rem;
+  }
+  
+  /* Form Item label */
+  .ant-form-item-label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #555;
+  }
+  
+  /* Input fields */
+  .ant-input, .ant-input-password, .ant-select-selector {
+    border-radius: 4px;
+    font-size: 1rem;
+    padding: 10px;
+  }
+  
+  /* Button styling */
+  .ant-btn-primary1 {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+    font-size: 1.1rem;
+    padding: 10px 0;
+  }
+  
+  .ant-btn-primary1:hover {
+    background-color: #45a049;
+    border-color: #45a049;
+  }
+  
+  /* Responsive input fields and button */
+  @media (max-width: 576px) {
+    .auth-form1 .ant-form-item {
+      margin-bottom: 15px;
+    }
+  
+    .auth-form1 .ant-btn-primary {
+      padding: 10px 0;
+    }
+  
+    .auth-form1 .ant-input, .auth-form1 .ant-input-password, .auth-form1 .ant-select-selector {
+      font-size: 0.9rem;
+    }
+  }
+  

@@ -1,0 +1,341 @@
+/* Container for the admin page */
+.admin-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  
+  
+
+
+  /* Header */
+
+  /* Header.css */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #ffffff;
+  position: sticky;
+  top: 0;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  margin-left: -850px;
+}
+
+.header-left i {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.header-left h1 {
+  font-size: 24px;
+  font-weight: 400;
+  color: #4b4b4b;
+}
+
+.logo {
+  height: 60px;
+}
+
+.header-right i {
+  font-size: 20px;
+  color: #4b4b4b;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+
+/* dashboard */
+
+/* Dashboard.css */
+.dashboard {
+  margin-left: 100px; /* Space for sidebar */
+  padding: 20px;
+  margin-top: 120px;
+}
+
+.summary {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.card {
+  width: 180px;
+  height: 100px;
+  background-color: #f5f7fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.card h3 {
+  font-size: 24px;
+  color: #4b4b4b;
+}
+
+.card p {
+  font-size: 16px;
+  color: #888;
+}
+
+.reports {
+  display: flex;
+  justify-content: space-around;
+}
+
+.report {
+  width: 180px;
+  height: 60px;
+  background-color: #e0e4e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+
+/* addcategory */
+/* For large screens (Web View) */
+.add-category-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+.card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+/* Mobile view styles */
+@media (max-width: 767px) {
+  /* Move Sidebar to the top like a navbar */
+  .d-flex {
+    display: block;
+    width: 100%;
+  }
+
+  /* Make sure the Sidebar is displayed horizontally as a navbar */
+  .sidebar-mobile {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+ 
+
+  .categorycard{
+    width: 100%;
+    margin-left: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 500px !important;
+  }
+
+  .ant-card-body {
+    padding: 24px; /* You can adjust padding to fit better on mobile */
+    margin-top: 10px !important;
+  }
+
+  .btn1 {
+    
+    margin-left: 5px !important;
+  }
+
+  /* Add padding to the container */
+  .add-category-container {
+    padding: 10px;
+  }
+
+  /* Button position in mobile */
+  .view-categories-button {
+    width: 100%;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-top: 10px !important;
+  }
+}
+
+/* Add these styles in your global CSS file */
+
+/* For mobile view, center the card */
+@media (max-width: 767px) {
+  .add-category-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .add-category-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+  }
+}
+
+/* For larger screens, card stays as is */
+@media (min-width: 768px) {
+  .add-category-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 20px;
+    margin-top: 50px;
+  }
+}
+
+
+/* Category */
+/* Modal styles */
+.custom-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.custom-modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 700px;
+  position: relative;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.card-title {
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.shadow-sm {
+  
+  width: 600px;
+  margin-left: 250px;
+  margin-top: 200px;
+}
+
+.mb-0{
+  margin-bottom: 50px !important;
+  
+}
+
+.label-required {
+  white-space: nowrap; /* Prevents wrapping */
+}
+
+.label-required span {
+  color: red; /* Styles the asterisk in red */
+  margin-left: 4px; /* Adds a bit of space between text and asterisk */
+}
+
+
+
+
+
+
+
+
+
+
+/* Media queries for smaller devices */
+@media (max-width: 768px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  /* Adjust label and input alignment on mobile */
+  .form-label {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-control {
+    width: 100%;
+  }
+
+  /* Base styling */
+.container {
+  padding: 1rem;
+  margin-top: 100px;
+}
+
+.card {
+  width: 100%;
+  max-width: 500px;
+  
+  margin: auto;
+}
+
+.shadow-sm{
+  margin-top: 150px;
+}
+
+  /* Modal adjustments for smaller screens */
+  .custom-modal-content {
+    width: 90%;
+    max-width: 400px;
+    padding: 1.5rem;
+  }
+}
+
+/* Modal styles */
+.custom-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.custom-modal-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+}
+
+.btn-close {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
