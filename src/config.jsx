@@ -6,7 +6,7 @@
 // production config.js
 
 // const config = {
-//   BASE_URL: "https://rainbowsims-production.up.railway.app",
+//   BASE_URL: "rainbow-backend-production-production.up.railway.app",
 // };
 
 // export default config;
