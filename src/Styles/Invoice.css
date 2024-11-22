@@ -36,6 +36,40 @@
       width: 100%;
       margin-bottom: 10px;
     }
+
+    /* new */
+    .invoice-item {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .field {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .field label {
+      min-width: 120px;
+      font-weight: bold;
+    }
+    
+    .field input,
+    .field select {
+      flex: 1;
+      padding: 5px;
+      margin-left: 10px;
+    }
+    
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    
+
+
   }
   
 
@@ -44,3 +78,5 @@
     margin-top: 30px;
 
   }
+
+  

@@ -93,6 +93,7 @@ const AddInvoice = () => {
   };
 
   const columns = [
+    
     {
       title: "Product Name",
       dataIndex: "productName",
@@ -100,7 +101,7 @@ const AddInvoice = () => {
       render: (productName, record, index) => (
         <Select
           showSearch
-          style={{ width: 200 }}
+          style={{ width: "100%" }}
           value={productName}
           onChange={(value) => handleInvoiceItemChange(index, "productName", value)}
           placeholder="Select Product"
@@ -127,7 +128,7 @@ const AddInvoice = () => {
           onChange={(e) =>
             handleInvoiceItemChange(index, "quantity", e.target.value)
           }
-          style={{ width: 100 }}
+          style={{ width: "100%" }}
         />
       ),
     },
@@ -142,7 +143,7 @@ const AddInvoice = () => {
           onChange={(e) =>
             handleInvoiceItemChange(index, "unitPrice", e.target.value)
           }
-          style={{ width: 100 }}
+          style={{ width: "100%" }}
         />
       ),
     },
@@ -165,13 +166,14 @@ const AddInvoice = () => {
         </Button>
       ),
     },
+    
   ];
-  
 
   return (
     <div className="d-flex">
       <Sidebar />
       <div className="container d-flex justify-content-center align-items-center min-vh-100">
+        <br />
         <div
           className="card shadow-sm p-4"
           style={{ maxWidth: "800px", width: "100%" }}
@@ -221,6 +223,7 @@ const AddInvoice = () => {
               columns={columns}
               rowKey="productName"
               pagination={false}
+              responsive={true}  // Ensures the table adapts to smaller screens
               footer={() => (
                 <div>
                   <strong>Total: {invoiceTotal.toFixed(2)}</strong>
