@@ -1,16 +1,12 @@
 /* Container for the admin page */
 .admin-container {
-    display: flex;
-    height: 100vh;
-  }
-  
-  
-  
+  display: flex;
+  height: 100vh;
+}
 
+/* Header */
 
-  /* Header */
-
-  /* Header.css */
+/* Header.css */
 .header {
   display: flex;
   align-items: center;
@@ -48,7 +44,6 @@
   margin: 0 10px;
   cursor: pointer;
 }
-
 
 /* dashboard */
 
@@ -103,7 +98,6 @@
   font-weight: 500;
 }
 
-
 /* addcategory */
 /* For large screens (Web View) */
 .add-category-container {
@@ -132,9 +126,7 @@
     margin-bottom: 20px;
   }
 
- 
-
-  .categorycard{
+  .categorycard {
     width: 100%;
     margin-left: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -147,7 +139,6 @@
   }
 
   .btn1 {
-    
     margin-left: 5px !important;
   }
 
@@ -197,20 +188,19 @@
   }
 }
 
-
 /* Category */
 /* Modal styles */
-.custom-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+/* Custom Modal Style */
+.custom-modal .ant-modal {
+  max-width: 100%; /* Ensures modal doesn't overflow */
+}
+
+@media (max-width: 768px) {
+  /* For tablets and mobile */
+  .custom-modal .ant-modal {
+    width: 90%; /* Adjust modal width to fit smaller screens */
+    height: auto; /* Ensure height is adjusted based on content */
+  }
 }
 
 .custom-modal-content {
@@ -219,7 +209,8 @@
   border-radius: 8px;
   width: 90%;
   max-width: 700px;
-  position: relative;
+  position: fixed;
+  align-items: center;
 }
 
 .btn-close {
@@ -239,15 +230,13 @@
 }
 
 .shadow-sm {
-  
   width: 600px;
   margin-left: 250px;
   margin-top: 200px;
 }
 
-.mb-0{
+.mb-0 {
   margin-bottom: 50px !important;
-  
 }
 
 .label-required {
@@ -258,15 +247,6 @@
   color: red; /* Styles the asterisk in red */
   margin-left: 4px; /* Adds a bit of space between text and asterisk */
 }
-
-
-
-
-
-
-
-
-
 
 /* Media queries for smaller devices */
 @media (max-width: 768px) {
@@ -289,21 +269,21 @@
   }
 
   /* Base styling */
-.container {
-  padding: 1rem;
-  margin-top: 100px;
-}
+  .container {
+    padding: 1rem;
+    margin-top: 100px;
+  }
 
-.card {
-  width: 100%;
-  max-width: 500px;
-  
-  margin: auto;
-}
+  .card {
+    width: 100%;
+    max-width: 500px;
 
-.shadow-sm{
-  margin-top: 150px;
-}
+    margin: auto;
+  }
+
+  .shadow-sm {
+    margin-top: 150px;
+  }
 
   /* Modal adjustments for smaller screens */
   .custom-modal-content {

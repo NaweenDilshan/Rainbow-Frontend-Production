@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "../Styles/page.css";
-import Sidebar from "../Components/SideBar";
+import SidebarRef from "../Components/SideBarRef";
 import "../Styles/Dashboard.css";
 import axios from "axios";
 import config from "../config";
 
-const Dashboard = () => {
+const RefDashboard = () => {
   const [stats, setStats] = useState({
     totalCategories: 0,
     totalProducts: 0,
     activeProducts: 0,
     inactiveProducts: 0,
   });
-  
-  
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -43,7 +41,7 @@ const Dashboard = () => {
 
   return (
     <div className="container">
-      <Sidebar />
+      <SidebarRef />
       <div className="content">
         <div className="dashboard-header">
           <img
@@ -51,7 +49,7 @@ const Dashboard = () => {
             alt="Logo"
             className="dashboard-logo"
           />
-          <h1>Hi! Admin</h1>
+          <h1>Hi! Ref..</h1>
         </div>
 
         <div className="stats-section">
@@ -72,29 +70,9 @@ const Dashboard = () => {
             <p>Inactive Products</p>
           </div>
         </div>
-
-        <div className="sales-section">
-          <div className="sales-card">
-            <h2>100,000</h2>
-            <p>Total Sale</p>
-          </div>
-          <div className="sales-card">
-            <h2>10,000</h2>
-            <p>Est. Revenue</p>
-          </div>
-        </div>
-
-        <h1 style={{ fontSize: "24px", fontWeight: "bold", color: "#34495e" }}>
-          Reports
-        </h1>
-
-        <div className="reports-section">
-          <button className="report-button green">Product Report</button>
-          <button className="report-button blue">Monthly Income Report</button>
-        </div>
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default RefDashboard;

@@ -1,228 +1,317 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
-import { FaHome, FaUser, FaList, FaBox, FaFileInvoice } from "react-icons/fa"; // Icons for the menu
-import "../Styles/Sidebar.css"; // Make sure you create this file for the custom styles
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import {
+  FaHome,
+  FaUser,
+  FaList,
+  FaBox,
+  FaFileInvoice,
+  FaBars,
+  FaSignOutAlt,
+} from "react-icons/fa";
+import "../Styles/Sidebar.css";
 
 const Sidebar = () => {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const toggleSidebar = () => setIsOpen(!isOpen);
-
-  const handleSelect = (selected) => {
-    const to = "/" + selected;
+  const handleNavigation = (route) => {
+    const to = `/${route}`;
     if (window.location.pathname !== to) {
       navigate(to);
     }
+    if (isMobileMenuOpen) {
+      setMobileMenuOpen(false);
+    }
   };
 
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
+
+  const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
+  const toggleMobileMenu = () => setMobileMenuOpen(!isMobileMenuOpen);
+
   return (
-    <>
-      {/* Sidebar for web view */}
+    <div>
+      {/* Desktop Sidebar */}
       <div
-        className={`sidebar bg-dark text-white d-none d-lg-block ${
-          isOpen ? "open" : ""
-        }`}
+        className={`sidebar bg-dark text-white ${isSidebarOpen ? "open" : ""}`}
         style={{
           position: "fixed",
           top: 0,
           left: 0,
-          width: "250px",
+          width: isSidebarOpen ? "250px" : "80px",
           height: "100%",
           backgroundColor: "#3B1E54",
           paddingTop: "20px",
-          transition: "all 0.3s",
+          transition: "width 0.3s ease-in-out",
           zIndex: 1050,
         }}
       >
+        <div
+          className="sidebar-toggle"
+          onClick={toggleSidebar}
+          style={{
+            textAlign: "center",
+            cursor: "pointer",
+            padding: "10px",
+            borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+          }}
+        >
+          <FaBars style={{ fontSize: "1.5em" }} />
+        </div>
         <Navbar variant="dark" className="flex-column">
           <Nav className="flex-column">
             <Nav.Item>
-              <Nav.Link onClick={() => handleSelect("dashboard")}>
-                <FaHome style={{ fontSize: "1.5em" }} /> Dashboard
+              <Nav.Link onClick={() => handleNavigation("dashboard")}>
+                <FaHome className="nav-icon" /> {isSidebarOpen && "Dashboard"}
               </Nav.Link>
             </Nav.Item>
-
             <Nav.Item>
-              <Nav.Link onClick={() => handleSelect("register")}>
-                <FaUser style={{ fontSize: "1.5em" }} /> Users
+              <Nav.Link onClick={() => handleNavigation("register")}>
+                <FaUser className="nav-icon" /> {isSidebarOpen && "Users"}
               </Nav.Link>
             </Nav.Item>
-
             <Nav.Item>
-              <Nav.Link onClick={() => handleSelect("categories")}>
-                <FaList style={{ fontSize: "1.5em" }} /> Categories
+              <Nav.Link onClick={() => handleNavigation("usermanagement")}>
+                <FaUser className="nav-icon" />{" "}
+                {isSidebarOpen && "Users Managment"}
               </Nav.Link>
             </Nav.Item>
+            {/* <Nav.Item>
+              <Nav.Link onClick={() => handleNavigation("categories")}>
+                <FaList className="nav-icon" /> {isSidebarOpen && "Categories"}
+              </Nav.Link>
+            </Nav.Item> */}
+            <NavDropdown
+              title={
+                <>
+                  <FaList className="nav-icon" /> {isSidebarOpen && "Categorie"}
+                </>
+              }
+              id="categorie-dropdown"
+              className="text-white"
+            >
+              <NavDropdown.Item
+                onClick={() => handleNavigation("categorie/addcategorie")}
+              >
+                Add Categorie
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                onClick={() => handleNavigation("categorie/viewcategories")}
+              >
+                View Categories
+              </NavDropdown.Item>
+            </NavDropdown>
 
             <NavDropdown
               title={
                 <>
-                  <FaBox style={{ fontSize: "1.5em" }} /> Product
+                  <FaBox className="nav-icon" /> {isSidebarOpen && "Product"}
                 </>
               }
               id="product-dropdown"
               className="text-white"
             >
               <NavDropdown.Item
-                onClick={() => handleSelect("product/addproduct")}
+                onClick={() => handleNavigation("product/addproduct")}
               >
                 Add Product
               </NavDropdown.Item>
               <NavDropdown.Item
-                onClick={() => handleSelect("product/viewproducts")}
+                onClick={() => handleNavigation("product/viewproducts")}
               >
                 View Products
               </NavDropdown.Item>
             </NavDropdown>
-
             <NavDropdown
               title={
                 <>
-                  <FaBox style={{ fontSize: "1.5em" }} /> Store
+                  <FaBox className="nav-icon" /> {isSidebarOpen && "Store"}
                 </>
               }
               id="store-dropdown"
               className="text-white"
             >
-              <NavDropdown.Item onClick={() => handleSelect("store/add-store")}>
+              <NavDropdown.Item
+                onClick={() => handleNavigation("store/add-store")}
+              >
                 Add Store
               </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => handleSelect("store/viewstore")}>
+              <NavDropdown.Item
+                onClick={() => handleNavigation("store/viewstore")}
+              >
                 View Store
               </NavDropdown.Item>
             </NavDropdown>
-
             <NavDropdown
               title={
                 <>
-                  <FaFileInvoice style={{ fontSize: "1.5em" }} /> Invoices
+                  <FaFileInvoice className="nav-icon" />{" "}
+                  {isSidebarOpen && "Invoices"}
                 </>
               }
               id="invoices-dropdown"
               className="text-white"
             >
               <NavDropdown.Item
-                onClick={() => handleSelect("invoices/add-invoices")}
+                onClick={() => handleNavigation("invoices/add-invoices")}
               >
                 Add Invoice
               </NavDropdown.Item>
               <NavDropdown.Item
-                onClick={() => handleSelect("invoices/pending-invoices")}
+                onClick={() => handleNavigation("invoices/pending-invoices")}
               >
                 Pending Invoices
               </NavDropdown.Item>
               <NavDropdown.Item
-                onClick={() => handleSelect("invoices/view-invoices")}
+                onClick={() => handleNavigation("invoices/view-invoices")}
               >
                 View Invoices
               </NavDropdown.Item>
             </NavDropdown>
+            {/* Logout Button */}
+            <Nav.Item
+              style={{
+                marginTop: "auto",
+                borderTop: "1px solid rgba(255, 255, 255, 0.1)",
+                padding: "10px 0",
+              }}
+            >
+              <Nav.Link onClick={handleLogout}>
+                <FaSignOutAlt className="nav-icon" />{" "}
+                {isSidebarOpen && "Logout"}
+              </Nav.Link>
+            </Nav.Item>
           </Nav>
         </Navbar>
       </div>
 
-      {/* Navbar for mobile view */}
+      {/* Mobile Navbar */}
       <Navbar
         bg="dark"
         variant="dark"
         expand="lg"
         className="d-lg-none fixed-top"
       >
-        <Container>
-          <Navbar.Toggle
-            aria-controls="basic-navbar-nav"
-            onClick={toggleSidebar}
-            className="mobile-nav-toggle" // Custom class for mobile toggle button
-          />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ml-auto">
-              <Nav.Item>
-                <Nav.Link onClick={() => handleSelect("dashboard")}>
-                  <FaHome /> Dashboard
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link onClick={() => handleSelect("register")}>
-                  <FaUser /> Users
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link onClick={() => handleSelect("categories")}>
+        <Navbar.Toggle aria-controls="mobile-nav" onClick={toggleMobileMenu} />
+        <Navbar.Collapse id="mobile-nav" in={isMobileMenuOpen}>
+          <Nav className="ml-auto">
+            <Nav.Item>
+              <Nav.Link onClick={() => handleNavigation("dashboard")}>
+                <FaHome /> Dashboard
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link onClick={() => handleNavigation("register")}>
+                <FaUser /> Users
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link onClick={() => handleNavigation("usermanagement")}>
+                <FaUser /> Users Managment
+              </Nav.Link>
+            </Nav.Item>
+            {/* <Nav.Item>
+              <Nav.Link onClick={() => handleNavigation("categories")}>
+                <FaList /> Categories
+              </Nav.Link>
+            </Nav.Item> */}
+            <NavDropdown
+              title={
+                <>
                   <FaList /> Categories
-                </Nav.Link>
-              </Nav.Item>
-              <NavDropdown
-                title={
-                  <>
-                    <FaBox /> Product
-                  </>
-                }
-                id="product-dropdown-mobile"
+                </>
+              }
+              id="categories-dropdown-mobile"
+            >
+              <NavDropdown.Item
+                onClick={() => handleNavigation("categories/addcategorie")}
               >
-                <NavDropdown.Item
-                  onClick={() => handleSelect("product/addproduct")}
-                >
-                  Add Product
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  onClick={() => handleSelect("product/viewproducts")}
-                >
-                  View Products
-                </NavDropdown.Item>
-              </NavDropdown>
-              <NavDropdown
-                title={
-                  <>
-                    <FaBox /> Store
-                  </>
-                }
-                id="store-dropdown-mobile"
+                Add Categorie
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                onClick={() => handleNavigation("categories/viewcategories")}
               >
-                <NavDropdown.Item
-                  onClick={() => handleSelect("store/add-store")}
-                >
-                  Add Store
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  onClick={() => handleSelect("store/viewstore")}
-                >
-                  View Store
-                </NavDropdown.Item>
-              </NavDropdown>
-              <NavDropdown
-                title={
-                  <>
-                    <FaFileInvoice /> Invoices
-                  </>
-                }
-                id="invoices-dropdown-mobile"
+                View Categoriess
+              </NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown
+              title={
+                <>
+                  <FaBox /> Product
+                </>
+              }
+              id="product-dropdown-mobile"
+            >
+              <NavDropdown.Item
+                onClick={() => handleNavigation("product/addproduct")}
               >
-                <NavDropdown.Item
-                  onClick={() => handleSelect("invoices/add-invoices")}
-                >
-                  Add Invoice
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  onClick={() => handleSelect("invoices/pending-invoices")}
-                >
-                  Pending Invoices
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  onClick={() => handleSelect("invoices/view-invoices")}
-                >
-                  View Invoices
-                </NavDropdown.Item>
-                
-              </NavDropdown>
-              
-
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
+                Add Product
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                onClick={() => handleNavigation("product/viewproducts")}
+              >
+                View Products
+              </NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown
+              title={
+                <>
+                  <FaBox /> Store
+                </>
+              }
+              id="store-dropdown-mobile"
+            >
+              <NavDropdown.Item
+                onClick={() => handleNavigation("store/add-store")}
+              >
+                Add Store
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                onClick={() => handleNavigation("store/viewstore")}
+              >
+                View Store
+              </NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown
+              title={
+                <>
+                  <FaFileInvoice /> Invoices
+                </>
+              }
+              id="invoices-dropdown-mobile"
+            >
+              <NavDropdown.Item
+                onClick={() => handleNavigation("invoices/add-invoices")}
+              >
+                Add Invoice
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                onClick={() => handleNavigation("invoices/pending-invoices")}
+              >
+                Pending Invoices
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                onClick={() => handleNavigation("invoices/view-invoices")}
+              >
+                View Invoices
+              </NavDropdown.Item>
+            </NavDropdown>
+            {/* Logout Button for Mobile */}
+            <Nav.Item>
+              <Nav.Link onClick={handleLogout}>
+                <FaSignOutAlt /> Logout
+              </Nav.Link>
+            </Nav.Item>
+          </Nav>
+        </Navbar.Collapse>
       </Navbar>
-    </>
+    </div>
   );
 };
 

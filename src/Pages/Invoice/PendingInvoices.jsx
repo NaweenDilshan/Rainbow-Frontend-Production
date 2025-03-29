@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Badge, Card, message, Modal, Button } from "antd";
+import { Badge, Card, message, Modal, Button, Spin} from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import axios from "axios";
 import config from "../../config";
@@ -9,8 +9,8 @@ const PendingInvoices = () => {
   const [pendingInvoices, setPendingInvoices] = useState([]);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch inactive invoices on initial render
   useEffect(() => {
     const fetchPendingInvoices = async () => {
       try {
@@ -21,6 +21,8 @@ const PendingInvoices = () => {
         setPendingInvoices(inactiveInvoices);
       } catch (error) {
         message.error("Failed to load pending invoices.");
+      } finally {
+        setIsLoading(false); // Hide loader after data is fetched
       }
     };
 
@@ -39,16 +41,17 @@ const PendingInvoices = () => {
 
   const changeStatus = async (invoiceId) => {
     try {
-      // Send PUT request with plain true as the payload
-      await axios.put(`${config.BASE_URL}/api/invoices/${invoiceId}/status`, true, {
-        headers: {
-          "Content-Type": "application/json", // Ensure correct header for raw JSON value
-        },
-      });
-  
+      await axios.put(
+        `${config.BASE_URL}/api/invoices/${invoiceId}/status`,
+        true,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       message.success("Invoice status updated successfully.");
-  
-      // Remove updated invoice from pending list
       setPendingInvoices(
         pendingInvoices.filter((invoice) => invoice.invoiceId !== invoiceId)
       );
@@ -58,96 +61,85 @@ const PendingInvoices = () => {
       );
     }
   };
-  
-  
 
   return (
-    <>
+    <div className="container">
       <Sidebar />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center", // Center the content horizontally
-          alignItems: "center", // Center vertically
-          minHeight: "100vh", // Ensure the full height of the page
-          width: "100%",
-          padding: "20px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap", // Allow cards to wrap on smaller screens
-            justifyContent: "center", // Center cards horizontally
-            gap: "16px", // Add space between the cards
-            width: "100%",
-            maxWidth: "1200px", // Optional: Limit the max width of the container
-          }}
-        >
-          {pendingInvoices.map((invoice) => (
-            <Card
-              key={invoice.invoiceId}
+      <div className="content">
+        {isLoading ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "80vh",
+            }}
+          >
+            <Spin size="large" />
+          </div>
+        ) : (
+          <>
+          
+            <h3 className="card-title mb-4 text-center">Pending Invoices</h3>
+            <div
               style={{
-                width: "100%",
-                maxWidth: "400px", // Limiting the card's max width
-                textAlign: "left",
-                position: "relative", // Positioning for the badge
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", // Responsive grid
+                gap: "16px",
+                justifyContent: "center",
               }}
-              onClick={() => showInvoiceDetails(invoice)}
             >
-              {/* Badge for Pending Status - Positioned to the top-left corner */}
-              {!invoice.isActive && (
-                <Badge
-                  count="Pending"
+              {pendingInvoices.map((invoice) => (
+                <Card
+                  key={invoice.invoiceId}
                   style={{
-                    backgroundColor: "#ff4d4f",
-                    position: "absolute",
-                    width: "60px",
-                    top: "-15px", // Adjust top position for better visibility
-                    left: "10px", // Adjust left position for better visibility
-                    zIndex: 10, // Ensure the badge is above other content
+                    width: "100%",
+                    textAlign: "left",
+                    position: "relative",
+                    background: "#fff",
+                    borderRadius: "8px",
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                   }}
-                />
-              )}
-
-              <p>
-                <strong>Invoice Number:</strong> {invoice.invoiceCode}
-              </p>
-              <p>
-                <strong>Customer:</strong> {invoice.customerName}
-              </p>
-              <p>
-                <strong>Address:</strong> {invoice.billingAddress}
-              </p>
-              <p>
-                <strong>Date:</strong>{" "}
-                {new Date(invoice.createdAt).toLocaleString()}
-              </p>
-              <p>
-                <strong>Total:</strong> {invoice.invoiceTotal.toFixed(2)}
-              </p>
-
-              {/* Edit Icon to Change Status */}
-              <EditOutlined
-                onClick={(e) => {
-                  e.stopPropagation(); // Prevents modal from opening
-                  changeStatus(invoice.invoiceId);
-                }}
-                style={{
-                  fontSize: "18px",
-                  color: "#1890ff",
-                  cursor: "pointer",
-                  position: "absolute",
-                  bottom: "10px",
-                  right: "10px",
-                }}
-              />
-            </Card>
-          ))}
-        </div>
+                  onClick={() => showInvoiceDetails(invoice)}
+                >
+                 
+                  <p>
+                    <strong>Invoice Number:</strong> {invoice.invoiceCode}
+                  </p>
+                  <p>
+                    <strong>Customer:</strong> {invoice.customerName}
+                  </p>
+                  <p>
+                    <strong>Address:</strong> {invoice.billingAddress}
+                  </p>
+                  <p>
+                    <strong>Date:</strong>{" "}
+                    {new Date(invoice.createdAt).toLocaleString()}
+                  </p>
+                  <p>
+                    <strong>Total:</strong> {invoice.invoiceTotal.toFixed(2)}
+                  </p>
+                  <EditOutlined
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      changeStatus(invoice.invoiceId);
+                    }}
+                    style={{
+                      fontSize: "18px",
+                      color: "#1890ff",
+                      cursor: "pointer",
+                      position: "absolute",
+                      bottom: "10px",
+                      right: "10px",
+                    }}
+                  />
+                </Card>
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
-      {/* Modal for showing full invoice details */}
       {selectedInvoice && (
         <Modal
           title={`Invoice Details - #${selectedInvoice.invoiceId}`}
@@ -204,7 +196,7 @@ const PendingInvoices = () => {
           ))}
         </Modal>
       )}
-    </>
+    </div>
   );
 };
 

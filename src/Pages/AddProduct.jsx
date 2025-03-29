@@ -8,6 +8,25 @@ import "../Styles/AddProduct.css";
 
 const { Option } = Select;
 
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Clean up the event listener
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return isMobile;
+};
+
 const AddProduct = () => {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -15,6 +34,7 @@ const AddProduct = () => {
   const [products, setProducts] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const isMobile = useIsMobile();
 
   // Fetch categories
   useEffect(() => {
@@ -43,36 +63,38 @@ const AddProduct = () => {
 
   // Handle form submission with categoryId and categoryName
   // Add Product
-const handleSubmit = async (values) => {
-  if (!values.categoryId) {
-    message.error("Please select a category.");
-    return;
-  }
-
-  // Include the categoryName based on selected categoryId
-  const category = categories.find((cat) => cat.id === values.categoryId);
-  const productData = {
-    ...values,
-    categoryName: category ? category.categoryName : null,
-  };
-
-  setLoading(true);
-  try {
-    const response = await axios.post(`${config.BASE_URL}/api/products`, productData);
-    if (response.status === 200) {
-      message.success("Product added successfully!");
-      // Refresh products list by fetching again from the server
-      fetchProducts(); // Refreshes the product list displayed in the modal or table
-       // This will reload the entire page
+  const handleSubmit = async (values) => {
+    if (!values.categoryId) {
+      message.error("Please select a category.");
+      return;
     }
-  } catch (error) {
-    message.error("Failed to add product.");
-  } finally {
-    setLoading(false);
-  }
-  window.location.reload();
-};
 
+    // Include the categoryName based on selected categoryId
+    const category = categories.find((cat) => cat.id === values.categoryId);
+    const productData = {
+      ...values,
+      categoryName: category ? category.categoryName : null,
+    };
+
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `${config.BASE_URL}/api/products`,
+        productData
+      );
+      if (response.status === 200) {
+        message.success("Product added successfully!");
+        // Refresh products list by fetching again from the server
+        fetchProducts(); // Refreshes the product list displayed in the modal or table
+        // This will reload the entire page
+      }
+    } catch (error) {
+      message.error("Failed to add product.");
+    } finally {
+      setLoading(false);
+    }
+    window.location.reload();
+  };
 
   // Confirm before deleting a product
   const handleDeleteProduct = async (productId) => {
@@ -101,17 +123,48 @@ const handleSubmit = async (values) => {
   const handleCancelModal = () => {
     setIsModalVisible(false);
   };
-
-  // Table columns with delete icon and status display
   const columns = [
-    { title: "Product Name", dataIndex: "productName", key: "productName" },
-    { title: "Brand", dataIndex: "brand", key: "brand" },
-    { title: "Category", dataIndex: "categoryName", key: "categoryName" },
+    {
+      title: "Product Name",
+      dataIndex: "productName",
+      key: "productName",
+      render: (text) => (
+        <span data-column="Product Name">
+          {isMobile ? `Product Name - ${text}` : text}
+        </span>
+      ),
+    },
+    {
+      title: "Brand",
+      dataIndex: "brand",
+      key: "brand",
+      render: (text) => (
+        <span data-column="Brand">{isMobile ? `Brand - ${text}` : text}</span>
+      ),
+    },
+    {
+      title: "Category",
+      dataIndex: "categoryName",
+      key: "categoryName",
+      render: (text) => (
+        <span data-column="Category">
+          {isMobile ? `Category - ${text}` : text}
+        </span>
+      ),
+    },
     {
       title: "Status",
       dataIndex: "isActive",
       key: "status",
-      render: (isActive) => (isActive ? "Active" : "Inactive"),
+      render: (isActive) => (
+        <span data-column="Status">
+          {isMobile
+            ? `Status - ${isActive ? "Active" : "Inactive"}`
+            : isActive
+            ? "Active"
+            : "Inactive"}
+        </span>
+      ),
     },
     {
       title: "Actions",
@@ -173,32 +226,39 @@ const handleSubmit = async (values) => {
               </Select>
             </Form.Item> */}
             <Form.Item
-  label="Category"
-  name="categoryId"
-  rules={[{ required: true, message: "Please select a category!" }]}
->
-  <Select
-    placeholder="Select a category"
-    loading={isFetchingCategories}
-    allowClear
-    showSearch // Enables search functionality
-    optionFilterProp="children" // Filters options based on text
-    filterOption={(input, option) =>
-      option.children.toLowerCase().includes(input.toLowerCase())
-    }
-  >
-    {categories.map((category) => (
-      <Option key={category.id} value={category.id}>
-        {category.categoryName}
-      </Option>
-    ))}
-  </Select>
-</Form.Item>
-
+              label="Category"
+              name="categoryId"
+              rules={[{ required: true, message: "Please select a category!" }]}
+            >
+              <Select
+                placeholder="Select a category"
+                loading={isFetchingCategories}
+                allowClear
+                showSearch // Enables search functionality
+                optionFilterProp="children" // Filters options based on text
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().includes(input.toLowerCase())
+                }
+              >
+                {categories.map((category) => (
+                  <Option key={category.id} value={category.id}>
+                    {category.categoryName}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
-              <Button type="primary" htmlType="submit" loading={loading}
-              style={{ backgroundColor: "#9B7EBD", borderColor: "#9B7EBD", color: "black" }}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={loading}
+                style={{
+                  backgroundColor: "#9B7EBD",
+                  borderColor: "#9B7EBD",
+                  color: "black",
+                }}
+              >
                 Add Product
               </Button>
             </Form.Item>
@@ -206,7 +266,12 @@ const handleSubmit = async (values) => {
           <Button
             className="view-btn"
             type="default"
-            style={{ marginTop: "20px",  backgroundColor: "#EEEEEE", borderColor: "#9B7EBD", color: "black" }} 
+            style={{
+              marginTop: "20px",
+              backgroundColor: "#EEEEEE",
+              borderColor: "#9B7EBD",
+              color: "black",
+            }}
             onClick={handleViewProducts}
           >
             View Products
@@ -230,6 +295,8 @@ const handleSubmit = async (values) => {
             dataSource={products}
             columns={columns}
             rowKey="id"
+            scroll={{ x: "max-content" }}
+            style={{ maxWidth: "100%" }}
             className="responsive-table"
           />
         </Modal>

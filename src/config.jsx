@@ -6,7 +6,7 @@
 // production config.js
 
 const config = {
-  BASE_URL: "https://demo-deployment-latest-wyib.onrender.com",
+  BASE_URL: "https://sims-production-v1-production.up.railway.app",
 };
 
 // export default config;

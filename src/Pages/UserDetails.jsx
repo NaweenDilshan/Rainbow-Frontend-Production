@@ -12,10 +12,12 @@ import {
 } from "antd";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import config from "../config"; // your config file
-import Sidebar from "../Components/SideBar"; // your sidebar component
+import config from "../config";
+import Sidebar from "../Components/SideBar";
+import { useParams } from "react-router-dom";
 
-const UserDetails = ({ userId }) => {
+const UserDetails = () => {
+  const { userId } = useParams();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);

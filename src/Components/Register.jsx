@@ -28,7 +28,13 @@ const Register = () => {
     const { username, password, role, address, mobile } = values;
     setLoading(true);
     try {
-      await axios.post("/api/users/register", { username, password, role, address, mobile });
+      await axios.post(`${config.BASE_URL}/register`, {
+        username,
+        password,
+        role,
+        address,
+        mobile,
+      });
       message.success("User registered successfully!");
       fetchUsers(); // Refresh user list in modal
     } catch (error) {
@@ -85,56 +91,113 @@ const Register = () => {
     <div className="container">
       <Sidebar />
       <div className="content">
-        <Card title="Register User" bordered={false} style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
-          <Form onFinish={handleRegister} layout="horizontal" labelCol={{ span: 6 }} wrapperCol={{ span: 14 }}>
-            <Form.Item name="username" label="Username" rules={[{ required: true, message: "Username is required!" }]}>
+        <Card
+          title="Register User"
+          bordered={false}
+          style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
+        >
+          <Form
+            onFinish={handleRegister}
+            layout="horizontal"
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 14 }}
+          >
+            <Form.Item
+              name="username"
+              label="Username"
+              rules={[{ required: true, message: "Username is required!" }]}
+            >
               <Input placeholder="Enter username" />
             </Form.Item>
 
-            <Form.Item name="password" label="Password" rules={[{ required: true, message: "Password is required!" }]}>
+            <Form.Item
+              name="password"
+              label="Password"
+              rules={[{ required: true, message: "Password is required!" }]}
+            >
               <Input.Password placeholder="Enter password" />
             </Form.Item>
 
-            <Form.Item name="role" label="Role" rules={[{ required: true, message: "Role is required!" }]}>
+            <Form.Item
+              name="role"
+              label="Role"
+              rules={[{ required: true, message: "Role is required!" }]}
+            >
               <Select placeholder="Select role">
                 <Option value="admin">Admin</Option>
                 <Option value="ref">Ref</Option>
               </Select>
             </Form.Item>
 
-            <Form.Item name="address" label="Address" rules={[{ required: true, message: "Address is required!" }]}>
+            <Form.Item
+              name="address"
+              label="Address"
+              rules={[{ required: true, message: "Address is required!" }]}
+            >
               <Input placeholder="Enter address" />
             </Form.Item>
 
-            <Form.Item name="mobile" label="Mobile" rules={[{ required: true, message: "Mobile number is required!" }]}>
+            <Form.Item
+              name="mobile"
+              label="Mobile"
+              rules={[
+                { required: true, message: "Mobile number is required!" },
+              ]}
+            >
               <Input placeholder="Enter mobile number" />
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
-              <Button type="primary" color="9B7EBD" htmlType="submit" loading={loading} 
-              style={{ backgroundColor: "#9B7EBD", borderColor: "#9B7EBD", color: "black" }}>
+              <Button
+                type="primary"
+                color="9B7EBD"
+                htmlType="submit"
+                loading={loading}
+                style={{
+                  backgroundColor: "#9B7EBD",
+                  borderColor: "#9B7EBD",
+                  color: "black",
+                }}
+              >
                 Register User
               </Button>
             </Form.Item>
           </Form>
 
-          <Button className="view-btn" type="default"
-           style={{ marginTop: "20px",  backgroundColor: "#EEEEEE", borderColor: "#9B7EBD", color: "black" }} 
-           onClick={handleOpenModal}>
-            Manage Users
+          <Button
+            className="view-btn"
+            type="default"
+            style={{
+              marginTop: "20px",
+              backgroundColor: "#EEEEEE",
+              borderColor: "#9B7EBD",
+              color: "black",
+            }}
+            onClick={handleOpenModal}
+          >
+            View Users
           </Button>
         </Card>
 
         {/* User Management Modal */}
         <Modal
-          title="User Management"
+          title="All Users"
           visible={isModalVisible}
           onCancel={handleCancelModal}
-          footer={[<Button key="close" onClick={handleCancelModal}>Close</Button>]}
+          footer={[
+            <Button key="close" onClick={handleCancelModal}>
+              Close
+            </Button>,
+          ]}
           width={800}
           className="user-modal"
         >
-          <Table dataSource={users} columns={userColumns} rowKey="id" className="responsive-table" />
+          <Table
+            dataSource={users}
+            columns={userColumns}
+            rowKey="id"
+            className="responsive-table"
+          />
         </Modal>
       </div>
     </div>

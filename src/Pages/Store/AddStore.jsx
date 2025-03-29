@@ -9,12 +9,33 @@ import "../../Styles/AddProduct.css";
 
 const { Option } = Select;
 
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Clean up the event listener
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return isMobile;
+};
+
 const AddStore = () => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [stores, setStores] = useState([]);
   const [isFetchingProducts, setIsFetchingProducts] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const isMobile = useIsMobile();
 
   // Fetch products for dropdown
   useEffect(() => {
@@ -45,7 +66,10 @@ const AddStore = () => {
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
-      const response = await axios.post(`${config.BASE_URL}/api/stores`, values);
+      const response = await axios.post(
+        `${config.BASE_URL}/api/stores`,
+        values
+      );
       if (response.status === 200) {
         message.success("Store entry added successfully!");
         fetchStores(); // Refresh store data in the modal table
@@ -87,17 +111,44 @@ const AddStore = () => {
 
   // Table columns
   // Define table columns with conditional row styling for 'storeType' column
-const columns = [
-    { title: "Product Name", dataIndex: "productName", key: "productName" },
-    { title: "Quantity", dataIndex: "quantity", key: "quantity" },
-    { title: "Unit Price", dataIndex: "unitPrice", key: "unitPrice" },
+  const columns = [
+    {
+      title: "Product Name",
+      dataIndex: "productName",
+      key: "productName",
+      render: (text) => (
+        <span data-column="Product Name">
+          {isMobile ? `Product Name - ${text}` : text}
+        </span>
+      ),
+    },
+    {
+      title: "Quantity",
+      dataIndex: "quantity",
+      key: "quantity",
+      render: (text) => (
+        <span data-column="Quantity">
+          {isMobile ? `Quantity - ${text}` : text}
+        </span>
+      ),
+    },
+    {
+      title: "Unit Price",
+      dataIndex: "unitPrice",
+      key: "unitPrice",
+      render: (text) => (
+        <span data-column="Unit Price">
+          {isMobile ? `Unit Price - ${text}` : text}
+        </span>
+      ),
+    },
     {
       title: "Store Type",
       dataIndex: "storeType",
       key: "storeType",
       render: (storeType) => (
         <span style={{ color: storeType === "OUT" ? "red" : "black" }}>
-          {storeType}
+          {isMobile ? `Store Type - ${storeType}` : storeType}
         </span>
       ),
     },
@@ -112,10 +163,11 @@ const columns = [
       ),
     },
     {
-        title: "Date",
-        dataIndex: "createdAt",
-        key: "createdAt",
-        render: (createdAt) => new Date(createdAt).toLocaleString("en-GB", {
+      title: "Date",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (createdAt) =>
+        new Date(createdAt).toLocaleString("en-GB", {
           year: "numeric",
           month: "2-digit",
           day: "2-digit",
@@ -123,19 +175,19 @@ const columns = [
           minute: "2-digit",
           second: "2-digit",
         }),
-      }
-      
+    },
   ];
-  
+
   // Apply row class based on 'storeType'
-  const rowClassName = (record) => (record.storeType === "OUT" ? "out-row" : "");
-  
+  const rowClassName = (record) =>
+    record.storeType === "OUT" ? "out-row" : "";
+
   <Table
     dataSource={stores}
     columns={columns}
     rowKey="id"
     rowClassName={rowClassName}
-  />
+  />;
 
   return (
     <div className="container">
@@ -170,29 +222,27 @@ const columns = [
               </Select>
             </Form.Item> */}
             <Form.Item
-  label="Product Name"
-  name="productName"
-  rules={[{  required: true, message: "Product name is required!"  }]}
->
-  <Select
-    placeholder="Select a product"
-    loading={isFetchingProducts}
-    allowClear
-    showSearch // Enables search functionality
-    optionFilterProp="children" // Filters options based on text
-    filterOption={(input, option) =>
-      option.children.toLowerCase().includes(input.toLowerCase())
-    }
-  >
-    {products.map((product) => (
-      <Option key={product.id} value={product.productName}>
-        {product.productName}
-      </Option>
-    ))}
-  </Select>
-</Form.Item>
-
-
+              label="Product Name"
+              name="productName"
+              rules={[{ required: true, message: "Product name is required!" }]}
+            >
+              <Select
+                placeholder="Select a product"
+                loading={isFetchingProducts}
+                allowClear
+                showSearch // Enables search functionality
+                optionFilterProp="children" // Filters options based on text
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().includes(input.toLowerCase())
+                }
+              >
+                {products.map((product) => (
+                  <Option key={product.id} value={product.productName}>
+                    {product.productName}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
 
             <Form.Item
               label="Quantity"
@@ -219,8 +269,16 @@ const columns = [
               </Select>
             </Form.Item>
             <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
-              <Button type="primary" htmlType="submit" loading={loading}
-              style={{ backgroundColor: "#9B7EBD", borderColor: "#9B7EBD", color: "black" }}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={loading}
+                style={{
+                  backgroundColor: "#9B7EBD",
+                  borderColor: "#9B7EBD",
+                  color: "black",
+                }}
+              >
                 Add Store Entry
               </Button>
             </Form.Item>
@@ -228,7 +286,12 @@ const columns = [
           <Button
             className="view-btn"
             type="default"
-            style={{ marginTop: "20px",  backgroundColor: "#EEEEEE", borderColor: "#9B7EBD", color: "black" }} 
+            style={{
+              marginTop: "20px",
+              backgroundColor: "#EEEEEE",
+              borderColor: "#9B7EBD",
+              color: "black",
+            }}
             onClick={handleViewStores}
           >
             View Store Data

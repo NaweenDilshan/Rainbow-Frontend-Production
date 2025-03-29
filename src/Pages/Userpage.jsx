@@ -1,16 +1,14 @@
-// UserPage.js
 import React from "react";
+import SidebarRef from "../Components/SideBarRef";
+import RefDashboard from "../Pages/RefDashboard";
+import Header from "./Header";
+import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 
 const UserPage = () => {
   return (
-    <div>
-      <h1>User Dashboard</h1>
-      <p>
-        Welcome to your dashboard. Here you can view your profile, update
-        settings, and explore other features.
-      </p>
-      {/* Add more user-specific features here */}
-    </div>
+    <>
+      <RefDashboard />
+    </>
   );
 };
 

@@ -14,45 +14,45 @@
 /* Style adjustments for the card, form, and button on mobile screens */
 @media (max-width: 768px) {
   .container {
-      flex-direction: column; /* Stack sidebar and content vertically */
+    flex-direction: column; /* Stack sidebar and content vertically */
   }
 
   .content {
-      margin-left: 0; /* Remove left margin on mobile */
-      display: flex;
-      flex-direction: column; /* Arrange items vertically */
-      align-items: center; /* Center card and button horizontally */
-      padding: 10px;
-      margin-top: 50px;
+    margin-left: 0; /* Remove left margin on mobile */
+    display: flex;
+    flex-direction: column; /* Arrange items vertically */
+    align-items: center; /* Center card and button horizontally */
+    padding: 10px;
+    margin-top: 50px;
   }
 
   /* Card styling */
   .ant-card {
-      width: 100%; /* Make the card full width */
-      max-width: 350px; /* Limit max width for better readability */
-      margin-top: 20px; /* Adjust margin for spacing */
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      margin-top: 50px;
+    width: 100%; /* Make the card full width */
+    max-width: 350px; /* Limit max width for better readability */
+    margin-top: 20px; /* Adjust margin for spacing */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
   }
 
   /* Card body styling */
   .ant-card-body {
-      padding: 20px; /* Add padding for better spacing */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: -10px;
+    padding: 20px; /* Add padding for better spacing */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -10px;
   }
 
   /* Button styling */
   .ant-btn {
-      width: 100%; /* Full width on mobile */
-      max-width: 200px; /* Set max width to control button size */
-      margin-top: 15px; /* Spacing between form and button */
-      margin-left: -70px !important;
+    width: 100%; /* Full width on mobile */
+    max-width: 200px; /* Set max width to control button size */
+    margin-top: 15px; /* Spacing between form and button */
+    margin-left: -70px !important;
   }
 
-  .view-btn{
+  .view-btn {
     margin-left: 5px !important;
   }
 }
@@ -99,11 +99,45 @@
     margin-left: -70px; /* Center the button */
   }
   /* CSS for highlighting 'OUT' rows */
-.out-row {
-  background-color: #ffe6e6; /* Light red background for OUT entries */
+  .out-row {
+    background-color: #ffe6e6; /* Light red background for OUT entries */
+  }
 }
 
+.responsive-table {
+  width: 100%;
 }
 
+/* Mobile-specific styles */
+@media only screen and (max-width: 768px) {
+  /* Hide the table header in mobile view */
+  .responsive-table .ant-table-thead {
+    display: none;
+  }
 
+  /* Stack rows vertically on mobile */
+  .responsive-table .ant-table-tbody > tr {
+    display: block;
+    margin-bottom: 10px;
+    border: 1px solid #ddd; /* Optional: Add a border to separate rows */
+  }
 
+  /* Style each table cell as a block element for vertical stacking */
+  .responsive-table .ant-table-tbody > tr > td {
+    display: block;
+    padding: 10px;
+    text-align: left;
+    width: 100%; /* Ensure the cell takes full width */
+  }
+
+  /* Optional: Style the delete icon to be more compact on mobile */
+  .responsive-table .anticon-delete {
+    font-size: 18px; /* Make the delete icon smaller on mobile */
+    margin-top: 5px;
+  }
+
+  /* Customize padding and margin for the last column */
+  .responsive-table .ant-table-tbody > tr > td:last-child {
+    padding-right: 10px;
+  }
+}
